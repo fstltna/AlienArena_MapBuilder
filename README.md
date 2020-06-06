@@ -11,9 +11,8 @@ Usage like this:
 
         makemap <game type> [<debug>]
 
-"game type" should be dm or ctf. If you want to get debugging info add the "debug" as the next argument. Do it like this:
+"game type" should be dm or ctf. If you want to get debugging info add "debug" as the next argument. Do it like this:
 
         makemap ctf debug
 
 If you need more help visit https://alienarena.gameplayer.club/index.php/forum/alien-arena-tools
-
