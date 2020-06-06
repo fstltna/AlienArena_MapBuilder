@@ -1,0 +1,68 @@
+#!/usr/bin/perl
+#use strict;
+#use warnings;
+
+# This utility will scan the current directory and create a config file
+# line with all the maps of the present type
+# Set these for your situation
+my $VERSION = "1.0";
+my ($REQUESTED_TYPE, $DEBUG_ENABLED) = @ARGV;
+my $MapList;
+my $NumMapsAdded = 0;
+my $MapString = "";
+
+sub ProcessDirectory
+{
+	my $directory = '.';
+
+	opendir (DIR, $directory) or die $!;
+	while (my $file = readdir(DIR))
+	{
+		if ($DEBUG_ENABLED)
+		{
+			print "Saw file: $file\n";
+		}
+		if (substr($file, -4) eq ".bsp")
+		{
+			my ($MapType, $Rest) = split(/-/, $file);
+			if ($MapType eq $REQUESTED_TYPE)
+			{
+				my $NewLen = length($file) - 4;
+				$NumMapsAdded += 1;
+				$file = substr($file, 0, $NewLen);
+				$MapList = "$MapList $file";
+			}
+		}
+	}
+	if ($DEBUG_ENABLED)
+	{
+		print "Array is now: $MapList\n";
+		print "Saw $NumMapsAdded maps\n";
+	}
+	print "set sv_maplist $MapList\n";
+}
+
+if ($DEBUG_ENABLED)
+{
+	print "Alien Arena Map Tool - Creates a config line for all your maps - v$VERSION\n";
+	print "=====================================================================\n";
+}
+
+if ($REQUESTED_TYPE eq "")
+{
+	print "Type unspecified - try \"dm\" or \"ctf\" instead\n";
+}
+else
+{
+	#print "Selecting $REQUESTED_TYPE maps\n";
+	if (($REQUESTED_TYPE ne "dm") && ($REQUESTED_TYPE ne "ctf"))
+	{
+		print "Unknown map type - please use dm or ctf\n";
+	}
+	else
+	{
+		# Scan directory for maps
+		ProcessDirectory();
+	}
+}
+exit 0;
