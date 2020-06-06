@@ -7,9 +7,8 @@
 # Set these for your situation
 my $VERSION = "1.0";
 my ($REQUESTED_TYPE, $DEBUG_ENABLED) = @ARGV;
-my $MapList;
+my $MapList = "\"";
 my $NumMapsAdded = 0;
-my $MapString = "";
 
 sub ProcessDirectory
 {
@@ -34,6 +33,7 @@ sub ProcessDirectory
 			}
 		}
 	}
+	$MapList = "$MapList\"";
 	if ($DEBUG_ENABLED)
 	{
 		print "Array is now: $MapList\n";
